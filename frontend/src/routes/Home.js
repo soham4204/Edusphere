@@ -5,10 +5,39 @@ import school_advertisement from '../assets/school ader.jpg';
 import "../marquee.css";
 import NavbarComponent from '../components/Navbar';
 import FooterComponent from '../components/Footer';
-import { useNotice } from '../components/NoticeContext';
+import { useState,useEffect } from 'react';
+import { db } from '../firebase-config';
 
 const HomeComponent = () => {
-    const { notice } = useNotice();
+    const [notices, setNotices] = useState([]);
+    const [fullscreenImage, setFullscreenImage] = useState(null);
+
+    const openFullscreenImage = (imageSrc) => {
+        setFullscreenImage(imageSrc);
+    };
+    
+    const closeFullscreenImage = () => {
+        setFullscreenImage(null);
+    };
+
+    useEffect(() => {
+        const fetchNotices = async () => {
+          try {
+            const noticesRef = db.collection("notices");
+            const snapshot = await noticesRef.get();
+            const noticesData = snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+            setNotices(noticesData);
+          } catch (error) {
+            console.error("Error fetching notices:", error);
+          }
+        };
+    
+        fetchNotices();
+      }, []);
+
     return (
         <div className="fullpage w-full h-screen overflow-auto">
             <div>
@@ -86,22 +115,56 @@ const HomeComponent = () => {
                         </div>
                         <div className="notice board w-1/5 bg-blue-600 mr-2 mb-4">
                             <div className='  bg-white mx-1 h-full text-black '>
-                                <div className='bg-black w-full h-1'>
+                                <div className='bg-blue-600 w-full h-1'>
                                 </div>
                                 <div className="mb-1 w-full">
                                     <p className="text-2xl font-bold text-black text-center mb-1 ">Notice Board</p>
                                 </div> 
                                 <div className='bg-black w-full h-1'>
                                 </div>
-                                <div className='w-full text-black'>
-                                {notice && (
-                                <div>
-                                    {notice.type === 'text' && <p>{notice.content}</p>}
-                                    {notice.type === 'image' && <img src={notice.content} alt="Notice" />}
-                                    {notice.type === 'hyperlink' && <a href={notice.content}>{notice.content}</a>}
-                                </div>
+                                <div className="flex flex-col w-full">
+                                {notices.length === 0 ? (
+                                    <p className="text-center">No notices available</p>
+                                ) : (
+                                    <ul className="p-2 w-full font-poppins text-md font-bold">
+                                    {notices.map((notice, index) => (
+                                        <li key={index} className="bg-blue-200 rounded-lg mb-4 p-4">
+                                        {notice.type === "Text" && <p>{notice.subject}: {notice.content}</p>}
+                                        {notice.type === "Image" && (
+                                            <div>
+                                            <p className='pb-2'>{notice.subject}</p>
+                                            <img 
+                                                src={notice.content}
+                                                className='w-full h-48 object-cover rounded-lg cursor-pointer'
+                                                alt={`Notice ${index}`} 
+                                                onClick={() => openFullscreenImage(notice.content)} 
+                                            />
+                                            </div>
+                                        )}
+                                        {notice.type === "Link" && (
+                                            <a href={notice.content} target="_blank" rel="noopener noreferrer">
+                                            {notice.subject}
+                                            <div>---- click above ----</div>
+                                            </a>
+                                        )}
+                                        </li>
+                                    ))}
+                                    </ul>
                                 )}
-                                </div>               
+                                {fullscreenImage && (
+                                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-75 z-50">
+                                    <div className="relative">
+                                        <img src={fullscreenImage} alt="Fullscreen" className="max-h-screen" />
+                                        <button 
+                                        className="absolute top-4 right-4 text-white bg-blue-500 px-3 py-1 rounded"
+                                        onClick={closeFullscreenImage}
+                                        >
+                                        Close
+                                        </button>
+                                    </div>
+                                    </div>
+                                )}
+                                </div>
                             </div>
                         </div>
                     </div>

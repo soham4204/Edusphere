@@ -7,9 +7,9 @@ const StudentForm = ({onClose}) => {
   const [Category, setCategory] = useState('');
   const [Standard, setStandard] = useState('');
   const [Division, setDivision] = useState('');
-  // const [BirthDate, setBirthDate] = useState('');
+  const [BirthDate, setBirthDate] = useState('');
   const [ID, setId] = useState('');
-  // const [RollNo, setRollNo] = useState('');
+  const [RollNo, setRollNo] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,18 +20,18 @@ const StudentForm = ({onClose}) => {
         Category,
         Standard,
         Division,
-        // BirthDate,
+        BirthDate,
         ID,
-        // RollNo
+        RollNo,
       });
       setName('');
       setGender('');
       setCategory('');
       setStandard('');
       setDivision('');
-      // setBirthDate('');
+      setBirthDate('');
       setId('');
-      // setRollNo('');
+      setRollNo('');
       console.log('Student added successfully');
     } catch (error) {
       console.error('Error adding student: ', error);
@@ -41,6 +41,7 @@ const StudentForm = ({onClose}) => {
   return (
     <div className="w-full">
       <form onSubmit={handleSubmit} className="w-full p-4 flex flex-col">
+        <h1 className="text-xl font-bold mb-4 text-white">Student Form</h1>
         <div className="w-full flex space-x-2">
             <input
                     type="text"
@@ -75,13 +76,13 @@ const StudentForm = ({onClose}) => {
                     <option value="B">B</option>
                     <option value="C">C</option>
             </select>
-            {/* <input
+            <input
                     type="text"
                     placeholder="Roll No."
                     value={RollNo}
                     onChange={(e) => setRollNo(e.target.value)}
                     className="placeholder-black w-full px-4 py-2 mb-4 rounded-md border border-gray-300"
-            /> */}
+            />
             <select
                 value={Gender}
                 onChange={(e) => setGender(e.target.value)}
@@ -98,18 +99,17 @@ const StudentForm = ({onClose}) => {
                     onChange={(e) => setCategory(e.target.value)}
                     className="placeholder-black w-full px-4 py-2 mb-4 rounded-md border border-gray-300"
             />     
-            {/* <input
+            <input
                     type="text"
                     placeholder="Birth Date"
                     value={BirthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
                     className="placeholder-black w-full px-4 py-2 mb-4 rounded-md border border-gray-300 "
-            /> */}
-            
+            />            
         </div>
         <div className="space-x-2">
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                Create Student
+                Add Student
             </button>
             <button type="button" className="bg-red-500 text-white px-4 py-2 rounded-md"
             onClick={onClose}>

@@ -1,11 +1,16 @@
+import ContactUsComponent from '../components/ContactUsComponent';
+
 const FooterComponent = () => {
   return (
-    <div className="footer w-full h-48 bg-gray-800">
+    <div className="footer w-full ">
+    <div className="w-full h-16 bg-gray-800">
+    </div>
+    <div className="footer w-full h-100 bg-gray-800">
                 <div className="w-full h-4/5 flex flex-row ">
                     <div className="w-full h-full pt-2 flex flex-row items-center justify-center">
                         <div className="">
                             <p className="text-2xl font-bold text-white">Contact Us</p>
-                            <p className="text-white">Gunjal compound Kolsewadi Kalyan (E) 421306</p>
+                            <p className="text-white">Gunjal Compound,Kolsewadi,Kalyan(E)-421306</p>
                             <p className="text-white">Phone: 9702236759</p>
                             <p className="text-white">Email: gayatrividyalaya7@gmail.com</p>
                         </div>
@@ -22,7 +27,7 @@ const FooterComponent = () => {
                         <div className="w-full items-center justify-center flex flex-row">
                             <p className="text-2xl font-bold text-black"></p>
                         </div>
-                        <form className="w-full items-center justify-center">
+                        {/* <form className="w-full items-center justify-center">
                             <div className="w-2/3 space-x-2 py-1 flex flex-row">
                                 <div className="w-1/2 flex flex-col">
                                     <input className="flex" type="text" placeholder="Name" />
@@ -43,7 +48,8 @@ const FooterComponent = () => {
                                 <textarea className="input-message h-10" name="message" placeholder="Message"></textarea>
                                 <button className='p-2 px-4 border border-light-grey border-solid bg-mid-grey rounded h-10 hover:border-white text-white'>Submit</button>
                             </div>               
-                        </form>
+                        </form> */}
+                        <ContactUsComponent />
                     </div>
                 </div>
                 <div className="w-full h-1/5 flex">
@@ -52,8 +58,9 @@ const FooterComponent = () => {
                     </div>
                 </div>
                 <div className="bg-gray-800 text-md text-center">
-                    <p className="text-white ">Developed by: Soham Parab,Sushanth Shetty,Atharva Sambhaji,Vighnarth Nile and Guided by Dr. Sharmila Sengupta</p>
+                    <p className="text-white ">Developed by Soham Parab,Sushanth Shetty,Atharva Sambhaji,Vighnarth Nile and Guided by Dr. Sharmila Sengupta</p>
                 </div>
+    </div>
     </div>
   );
 }

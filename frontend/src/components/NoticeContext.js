@@ -1,11 +1,16 @@
 import React, { createContext, useContext, useState } from 'react';
+
 const NoticeContext = createContext();
 
 const NoticeProvider = ({ children }) => {
-  const [notice, setNotice] = useState(null);
+  const [notices, setNotices] = useState([]);
+
+  const addNotice = (newNotice) => {
+    setNotices([...notices, newNotice]);
+  };
 
   return (
-    <NoticeContext.Provider value={{ notice, setNotice }}>
+    <NoticeContext.Provider value={{ notices, addNotice }}>
       {children}
     </NoticeContext.Provider>
   );
@@ -20,3 +25,4 @@ const useNotice = () => {
 };
 
 export { NoticeProvider, useNotice };
+

@@ -1,23 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase-config';
+const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfUGEmlkfvP-e8EFRJUW8TO-53PzMQXUFjqRm8UDLYdmcw0Mw/viewform?usp=sf_link';
 
-const StudentList = ({ onClose }) => {
+
+const StudentCertificate = ({ onClose }) => {
   const [students, setStudents] = useState([]);
-  const [selectedStandard, setSelectedStandard] = useState('');
   const [selectedDivision, setSelectedDivision] = useState('');
+
+  const submitToGoogleForm = async (name, division) => {
+    try {
+      const formData = new FormData();
+      formData.append('entry.T2Ybvb8', name); // Replace with your Google Form field IDs
+      formData.append('entry.T2Ybvb6', division); // Replace with your Google Form field IDs
+
+      await fetch(GOOGLE_FORM_URL, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors', // You might need to adjust CORS settings on your form
+      });
+
+      console.log('Data submitted successfully');
+    } catch (error) {
+      console.error('Error submitting data to Google Form: ', error);
+    }
+  };
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
         let query = db.collection('Student');
-        
-        if (selectedStandard !== '') {
-          query = query.where('Standard', '==', selectedStandard);
-        }
+  
         if (selectedDivision !== '') {
           query = query.where('Division', '==', selectedDivision);
         }
-
+        query = query.where('Standard', '==', '10'); 
         const snapshot = await query.get();
         const studentData = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -27,39 +43,16 @@ const StudentList = ({ onClose }) => {
       } catch (error) {
         console.error('Error fetching students: ', error);
       }
-    };
-  
+    }; 
     fetchStudents();
-  }, [selectedStandard, selectedDivision]);
-
-  const handleDelete = async (id) => {
-    try {
-      await db.collection('Student').doc(id).delete();
-      setStudents(students.filter((student) => student.id !== id));
-      console.log('Student deleted successfully');
-    } catch (error) {
-      console.error('Error deleting student: ', error);
-    }
-  };
+  }, [selectedDivision]);
+  
 
   return (
     <div className="w-full h-full bg-gray-800">
       <div className="flex flex-row items-center">
         <h1 className="text-2xl font-bold m-4 float-left text-white">Student List</h1>
         <div className="flex space-x-4">
-          {/* Select Standard dropdown */}
-          <select
-            value={selectedStandard}
-            onChange={(e) => setSelectedStandard(e.target.value)}
-            className="bg-gray-700 text-white px-4 py-2 rounded-md border border-gray-300"
-          >
-            <option value="">Select Standard</option>
-            <option value="8">Standard 8th</option>
-            <option value="9">Standard 9th</option>
-            <option value="10">Standard 10th</option>
-            {/* Add more options as needed */}
-          </select>
-          {/* Select Division dropdown */}
           <select
             value={selectedDivision}
             onChange={(e) => setSelectedDivision(e.target.value)}
@@ -105,10 +98,13 @@ const StudentList = ({ onClose }) => {
               <td className="p-2 text-center">{student.Category}</td>              
               <td className='p-2 text-center'>
                 <button
-                  onClick={() => handleDelete(student.id)}
-                  className="text-red-500 hover:text-red-700"
+                  className="bg-blue-500 text-white px-4 rounded hover:bg-blue-700"
+                  onClick={() => {
+                    submitToGoogleForm(student.Name, student.Division);
+                    console.log('Generate Certificate for: ', student.Name);
+                  }}
                 >
-                  Delete
+                  Generate Certificate
                 </button>
               </td>
             </tr>
@@ -119,4 +115,6 @@ const StudentList = ({ onClose }) => {
   );
 };
 
-export default StudentList;
+
+export default StudentCertificate;
+

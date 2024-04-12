@@ -8,19 +8,20 @@ import AcademicsComponent from "./routes/Academics";
 import ActivitiesComponent from "./routes/Activities";
 import AdmissionComponent from "./routes/Admission";
 import DashboardComponent from "./routes/Dashboard";
+import { NoticeProvider } from './components/NoticeContext';
 
 function App() {
   return (
     <div className="App h-screen font-poppins text-base">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={ <HomeComponent/> } />
-          <Route path="/login" element = { <LoginComponent/>} />
-          <Route path="/AboutUs" element = { <AboutUsComponent/>} />
-          <Route path="/Academics" element = { <AcademicsComponent/>} />
-          <Route path="/Activities" element = { <ActivitiesComponent/>} />
-          <Route path="/Admission" element = { <AdmissionComponent/>} />
-          <Route path="/Dashboard" element = { <DashboardComponent/>} />
+            <Route path="/" element={ <NoticeProvider><HomeComponent/></NoticeProvider> } />
+            <Route path="/login" element = { <LoginComponent/>} />
+            <Route path="/AboutUs" element = { <AboutUsComponent/>} />
+            <Route path="/Academics" element = { <AcademicsComponent/>} />
+            <Route path="/Activities" element = { <ActivitiesComponent/>} />
+            <Route path="/Admission" element = { <AdmissionComponent/>} />
+            <Route path="/Dashboard" element = { <NoticeProvider><DashboardComponent/></NoticeProvider>} />
         </Routes>
       </BrowserRouter>
     </div>
