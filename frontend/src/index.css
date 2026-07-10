@@ -1,3 +1,88 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-dark: #1A312C;
+    --brand: #428475;
+    --brand-light: #89D7B7;
+    --brand-bg: #FFF4E1;
+    --brand-bg-dark: #F5E8D0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply font-poppins text-brand-dark bg-brand-bg antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    @apply bg-brand-light text-brand-dark;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white bg-opacity-60 backdrop-filter backdrop-blur-lg border border-white border-opacity-40;
+  }
+
+  .glass-dark {
+    @apply bg-brand-dark bg-opacity-80 backdrop-filter backdrop-blur-lg border border-brand-light border-opacity-10;
+  }
+
+  .gradient-border {
+    position: relative;
+    background: linear-gradient(var(--brand-bg), var(--brand-bg)) padding-box,
+      linear-gradient(135deg, var(--brand), var(--brand-light)) border-box;
+    border: 2px solid transparent;
+  }
+
+  .noise-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand to-brand-light;
+  }
+
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto w-full;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

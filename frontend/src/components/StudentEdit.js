@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { db } from '../firebase-config';
+import Button from './ui/Button';
 
 const StudentEdit = ({ onClose }) => {
   const [standard, setStandard] = useState('8');
@@ -59,179 +60,177 @@ const StudentEdit = ({ onClose }) => {
   
   
   return (
-    <div className="w-full h-full bg-gray-800">
-      <div className="flex flex-row items-center">
-        <h1 className="text-2xl font-bold m-4 float-left text-white">Edit Student</h1>
-        <button
-          className="bg-blue-500 text-white h-1/2 float-right px-4 rounded hover:bg-blue-700"
-          onClick={onClose}
-        >
+    <div className="p-6 rounded-2xl bg-white shadow-card overflow-x-auto">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <h1 className="text-xl font-bold text-brand-dark">Edit Student</h1>
+        <Button variant="ghost" onClick={onClose}>
           Close
-        </button>
+        </Button>
       </div>
-      <div className="flex flex-col space-y-4 text-white p-4">
-        <div className="flex flex-row space-x-4 h-18 items-center">
-          <div>
-            <label htmlFor="standard">Standard:</label>
+      
+      <div className="flex flex-col space-y-6">
+        <div className="flex flex-wrap items-end gap-4">
+          <div className="flex flex-col">
+            <label htmlFor="standard" className="text-sm font-semibold text-brand-dark mb-1">Standard</label>
             <select
               id="standard"
               value={standard}
               onChange={handleStandardChange}
-              className="ml-2 px-2 py-1 rounded-md border border-gray-300 bg-gray-700"
+              className="px-3 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
             >
               <option value="8">8</option>
               <option value="9">9</option>
               <option value="10">10</option>
             </select>
           </div>
-          <div>
-            <label htmlFor="division">Division:</label>
+          <div className="flex flex-col">
+            <label htmlFor="division" className="text-sm font-semibold text-brand-dark mb-1">Division</label>
             <select
               id="division"
               value={division}
               onChange={handleDivisionChange}
-              className="w-14 ml-2 px-2 py-1 rounded-md border border-gray-300 bg-gray-700"
+              className="px-3 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
             >
               <option value="A">A</option>
               <option value="B">B</option>
               <option value="C">C</option>
             </select>
           </div>
-          <div>
-            <label htmlFor="rollNo">Roll No:</label>
+          <div className="flex flex-col">
+            <label htmlFor="rollNo" className="text-sm font-semibold text-brand-dark mb-1">Roll No</label>
             <input
               type="text"
               id="rollNo"
               value={rollNo}
               onChange={handleRollNoChange}
-              className="w-14 ml-2 px-2 py-1 rounded-md border border-gray-300 bg-gray-700"
+              className="w-20 px-3 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
             />
-            <button
-              className="bg-blue-500 text-white ml-4 h-full px-4 py-2 rounded hover:bg-blue-700"
-              onClick={fetchStudentData}
-            >
-              Select Student
-            </button>
           </div>
+          <Button variant="primary" onClick={fetchStudentData}>
+            Select Student
+          </Button>
         </div>
+
         {studentData && (
-        <div className="w-full mt-4">
-          <table className="w-full border-collapse border border-gray-300 bg-gray-800 mt-4">
-              <thead>
-                <tr className="bg-gray-900 text-white">
-                  <th className="p-2">ID</th>
-                  <th className="p-2">Name</th>
-                  <th className="p-2">Standard</th>
-                  <th className="p-2">Division</th>
-                  <th className="p-2">RollNo</th>
-                  <th className="p-2">Gender</th>
-                  <th className="p-2">BirthDate</th>
-                  <th className="p-2">Category</th>           
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border border-gray-300 text-white">
-                  <td className="p-2 text-center">{studentData.ID}</td>
-                  <td className="p-2 text-center">{studentData.Name}</td>
-                  <td className="p-2 text-center">{studentData.Standard}</td>
-                  <td className="p-2 text-center">{studentData.Division}</td>
-                  <td className="p-2 text-center">{studentData.RollNo}</td>
-                  <td className="p-2 text-center">{studentData.Gender}</td>
-                  <td className="p-2 text-center">{studentData.BirthDate}</td>
-                  <td className="p-2 text-center">{studentData.Category}</td>
-                </tr>
-              </tbody>
-            </table>
-          <div className="grid grid-cols-4 gap-4 mt-4">
-            <div>
-              <label htmlFor="ID" className="text-white">ID:</label>
-              <input
-                type="text"
-                id="ID"
-                value={studentData.ID}
-                onChange={(e) => setStudentData({ ...studentData, ID: e.target.value })}
-                className="w-full px-2 py-1 rounded-md border border-gray-300 bg-gray-700 text-white"
-              />
+        <div className="w-full mt-4 space-y-6">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-brand-light border-opacity-30">
+                    <th className="text-left py-3 px-4 font-semibold text-brand-dark">ID</th>
+                    <th className="text-left py-3 px-4 font-semibold text-brand-dark">Name</th>
+                    <th className="text-left py-3 px-4 font-semibold text-brand-dark">Standard</th>
+                    <th className="text-left py-3 px-4 font-semibold text-brand-dark">Division</th>
+                    <th className="text-left py-3 px-4 font-semibold text-brand-dark">RollNo</th>
+                    <th className="text-left py-3 px-4 font-semibold text-brand-dark">Gender</th>
+                    <th className="text-left py-3 px-4 font-semibold text-brand-dark">BirthDate</th>
+                    <th className="text-left py-3 px-4 font-semibold text-brand-dark">Category</th>           
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-brand-light border-opacity-10">
+                    <td className="py-3 px-4 text-brand-dark">{studentData.ID}</td>
+                    <td className="py-3 px-4 text-brand-dark">{studentData.Name}</td>
+                    <td className="py-3 px-4 text-brand-dark">{studentData.Standard}</td>
+                    <td className="py-3 px-4 text-brand-dark">{studentData.Division}</td>
+                    <td className="py-3 px-4 text-brand-dark">{studentData.RollNo}</td>
+                    <td className="py-3 px-4 text-brand-dark">{studentData.Gender}</td>
+                    <td className="py-3 px-4 text-brand-dark">{studentData.BirthDate}</td>
+                    <td className="py-3 px-4 text-brand-dark">{studentData.Category}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div>
-              <label htmlFor="Name" className="text-white">Name:</label>
-              <input
-                type="text"
-                id="Name"
-                value={studentData.Name}
-                onChange={(e) => setStudentData({ ...studentData, Name: e.target.value })}
-                className="w-full px-2 py-1 rounded-md border border-gray-300 bg-gray-700 text-white"
-              />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+              <div>
+                <label htmlFor="ID" className="text-sm font-semibold text-brand-dark mb-1 block">ID:</label>
+                <input
+                  type="text"
+                  id="ID"
+                  value={studentData.ID}
+                  onChange={(e) => setStudentData({ ...studentData, ID: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all text-brand-dark"
+                />
+              </div>
+              <div>
+                <label htmlFor="Name" className="text-sm font-semibold text-brand-dark mb-1 block">Name:</label>
+                <input
+                  type="text"
+                  id="Name"
+                  value={studentData.Name}
+                  onChange={(e) => setStudentData({ ...studentData, Name: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all text-brand-dark"
+                />
+              </div>
+              <div>
+                <label htmlFor="Standard" className="text-sm font-semibold text-brand-dark mb-1 block">Standard:</label>
+                <input
+                  type="text"
+                  id="Standard"
+                  value={studentData.Standard}
+                  onChange={(e) => setStudentData({ ...studentData, Standard: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all text-brand-dark"
+                />
+              </div>
+              <div>
+                <label htmlFor="Division" className="text-sm font-semibold text-brand-dark mb-1 block">Division:</label>
+                <input
+                  type="text"
+                  id="Division"
+                  value={studentData.Division}
+                  onChange={(e) => setStudentData({ ...studentData, Division: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all text-brand-dark"
+                />
+              </div>
+              <div>
+                <label htmlFor="RollNo" className="text-sm font-semibold text-brand-dark mb-1 block">RollNo:</label>
+                <input
+                  type="text"
+                  id="RollNo"
+                  value={studentData.RollNo}
+                  onChange={(e) => setStudentData({ ...studentData, RollNo: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all text-brand-dark"
+                />
+              </div>
+              <div>
+                <label htmlFor="Gender" className="text-sm font-semibold text-brand-dark mb-1 block">Gender:</label>
+                <input
+                  type="text"
+                  id="Gender"
+                  value={studentData.Gender}
+                  onChange={(e) => setStudentData({ ...studentData, Gender: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all text-brand-dark"
+                />
+              </div>
+              <div>
+                <label htmlFor="BirthDate" className="text-sm font-semibold text-brand-dark mb-1 block">BirthDate:</label>
+                <input
+                  type="text"
+                  id="BirthDate"
+                  value={studentData.BirthDate}
+                  onChange={(e) => setStudentData({ ...studentData, BirthDate: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all text-brand-dark"
+                />
+              </div>
+              <div>
+                <label htmlFor="Category" className="text-sm font-semibold text-brand-dark mb-1 block">Category:</label>
+                <input
+                  type="text"
+                  id="Category"
+                  value={studentData.Category}
+                  onChange={(e) => setStudentData({ ...studentData, Category: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all text-brand-dark"
+                />
+              </div>
             </div>
-            <div>
-              <label htmlFor="Standard" className="text-white">Standard:</label>
-              <input
-                type="text"
-                id="Standard"
-                value={studentData.Standard}
-                onChange={(e) => setStudentData({ ...studentData, Standard: e.target.value })}
-                className="w-full px-2 py-1 rounded-md border border-gray-300 bg-gray-700 text-white"
-              />
-            </div>
-            <div>
-              <label htmlFor="Division" className="text-white">Division:</label>
-              <input
-                type="text"
-                id="Division"
-                value={studentData.Division}
-                onChange={(e) => setStudentData({ ...studentData, Division: e.target.value })}
-                className="w-full px-2 py-1 rounded-md border border-gray-300 bg-gray-700 text-white"
-              />
-            </div>
-            <div>
-              <label htmlFor="RollNo" className="text-white">RollNo:</label>
-              <input
-                type="text"
-                id="RollNo"
-                value={studentData.RollNo}
-                onChange={(e) => setStudentData({ ...studentData, RollNo: e.target.value })}
-                className="w-full px-2 py-1 rounded-md border border-gray-300 bg-gray-700 text-white"
-              />
-            </div>
-            <div>
-              <label htmlFor="Gender" className="text-white">Gender:</label>
-              <input
-                type="text"
-                id="Gender"
-                value={studentData.Gender}
-                onChange={(e) => setStudentData({ ...studentData, Gender: e.target.value })}
-                className="w-full px-2 py-1 rounded-md border border-gray-300 bg-gray-700 text-white"
-              />
-            </div>
-            <div>
-              <label htmlFor="BirthDate" className="text-white">BirthDate:</label>
-              <input
-                type="text"
-                id="BirthDate"
-                value={studentData.BirthDate}
-                onChange={(e) => setStudentData({ ...studentData, BirthDate: e.target.value })}
-                className="w-full px-2 py-1 rounded-md border border-gray-300 bg-gray-700 text-white"
-              />
-            </div>
-            <div>
-              <label htmlFor="Category" className="text-white">Category:</label>
-              <input
-                type="text"
-                id="Category"
-                value={studentData.Category}
-                onChange={(e) => setStudentData({ ...studentData, Category: e.target.value })}
-                className="w-full px-2 py-1 rounded-md border border-gray-300 bg-gray-700 text-white"
-              />
+            <div className="mt-6">
+              <Button variant="primary" onClick={handleEditSubmit}>
+                Submit Edit
+              </Button>
             </div>
           </div>
-          <button
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 mt-4"
-            onClick={handleEditSubmit}
-          >
-            Submit Edit
-          </button>
-        </div>
-      )}     
+        )}     
       </div>
     </div>
   );

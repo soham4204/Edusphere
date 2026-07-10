@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Send, CheckCircle } from 'lucide-react';
+import Input from './ui/Input';
+import Textarea from './ui/Textarea';
+import Button from './ui/Button';
 
 const ContactUsComponent = () => {
   const [name, setName] = useState('');
@@ -13,8 +18,6 @@ const ContactUsComponent = () => {
     e.preventDefault();
     setSubmitting(true);
 
-    const formSpreeEndpoint = 'https://formspree.io/f/xbjnovrp';
-
     const formData = new FormData();
     formData.append('name', name);
     formData.append('_replyto', email);
@@ -23,19 +26,13 @@ const ContactUsComponent = () => {
     formData.append('message', message);
 
     try {
-      const response = await fetch(formSpreeEndpoint, {
+      const response = await fetch('https://formspree.io/f/xbjnovrp', {
         method: 'POST',
         body: formData,
-        headers: {
-          Accept: 'application/json',
-        },
+        headers: { Accept: 'application/json' },
       });
 
-      if (response.ok) {
-        setSubmitted(true);
-      } else {
-        console.error('Failed to submit the form. Please try again.');
-      }
+      if (response.ok) setSubmitted(true);
     } catch (error) {
       console.error('An error occurred while submitting the form.', error);
     } finally {
@@ -43,73 +40,73 @@ const ContactUsComponent = () => {
     }
   };
 
+  if (submitted) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="flex flex-col items-center justify-center p-8 rounded-2xl bg-white bg-opacity-10 text-center"
+      >
+        <CheckCircle className="w-12 h-12 text-brand-light mb-4" />
+        <p className="text-lg font-semibold text-brand-light">Thank you!</p>
+        <p className="text-white text-opacity-70 mt-1">We'll be in touch soon.</p>
+      </motion.div>
+    );
+  }
+
   return (
-    <div className="h-46 flex items-center justify-center bg-gray-100 mr-24">
-      <div className="bg-white p-4 rounded shadow-md w-96">
-        <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">Contact Us</h2>
-        {submitted ? (
-          <p className="text-green-500 text-center">Thank you for your message! We'll be in touch.</p>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="w-full space-x-2 flex flex-row">
-              <div className="w-1/2 flex flex-col">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full p-3 rounded border border-gray-300"
-                />
-              </div>
-              <div className="w-1/2 flex flex-col">
-                <input
-                  type="text"
-                  placeholder="Phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full p-3 rounded border border-gray-300"
-                />
-              </div>
-            </div>
-            <div className="w-full space-x-2 flex flex-row">
-              <div className="w-1/2 flex flex-col">
-                <input
-                  type="email"
-                  placeholder="Email Id"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-3 rounded border border-gray-300"
-                />
-              </div>
-              <div className="w-1/2 flex flex-col">
-                <input
-                  type="text"
-                  placeholder="Subject"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                  className="w-full p-3 rounded border border-gray-300"
-                />
-              </div>
-            </div>
-            <div className="w-full py-1 space-x-2 flex">
-              <textarea
-                name="message"
-                placeholder="Message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="input-message w-full p-3 rounded border border-gray-300"
-              ></textarea>
-              <button
-                type="submit"
-                className="p-2 px-4 border border-light-gray bg-mid-gray rounded h-10 bg-blue-800 text-white hover:border-white"
-                disabled={submitting}
-              >
-                {submitting ? 'Submitting...' : 'Submit'}
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
+    <div>
+      <h3 className="text-2xl font-bold mb-6 text-brand-light">Get in Touch</h3>
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Input
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="bg-white bg-opacity-10 border-white border-opacity-20 text-white placeholder-white placeholder-opacity-50"
+          />
+          <Input
+            placeholder="Phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="bg-white bg-opacity-10 border-white border-opacity-20 text-white placeholder-white placeholder-opacity-50"
+          />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="bg-white bg-opacity-10 border-white border-opacity-20 text-white placeholder-white placeholder-opacity-50"
+          />
+          <Input
+            placeholder="Subject"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            className="bg-white bg-opacity-10 border-white border-opacity-20 text-white placeholder-white placeholder-opacity-50"
+          />
+        </div>
+        <Textarea
+          placeholder="Your message..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          required
+          className="bg-white bg-opacity-10 border-white border-opacity-20 text-white placeholder-white placeholder-opacity-50 min-h-[80px]"
+        />
+        <Button
+          type="submit"
+          variant="accent"
+          loading={submitting}
+          icon={Send}
+          iconPosition="right"
+          className="w-full"
+        >
+          Send Message
+        </Button>
+      </form>
     </div>
   );
 };

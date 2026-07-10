@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { db } from '../firebase-config'; 
+import Button from './ui/Button';
 
 const TeacherForm = ({ onClose }) => {
   const [teacherData, setTeacherData] = useState({
@@ -35,18 +36,17 @@ const TeacherForm = ({ onClose }) => {
   };
 
   return (
-    <div className="w-full">
-      <div className="w-full p-4 flex flex-col">
-        <h1 className="text-xl font-bold mb-4 text-white">Teacher Form</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="w-full flex space-x-2">
+    <div className="p-6 rounded-2xl bg-white shadow-card max-w-4xl mx-auto">
+      <form onSubmit={handleSubmit} className="flex flex-col">
+        <h1 className="text-xl font-bold mb-6 text-brand-dark">Add New Teacher</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <input
             type="text"
             name="ID"
             value={teacherData.ID}
             placeholder="ID"
             onChange={handleChange}
-            className="placeholder-black w-full px-4 py-2 rounded-md border border-gray-300"
+            className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
           />
           <input
             type="text"
@@ -54,7 +54,7 @@ const TeacherForm = ({ onClose }) => {
             value={teacherData.name}
             placeholder="Name"
             onChange={handleChange}
-            className="placeholder-black w-full px-4 py-2 rounded-md border border-gray-300"
+            className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
           />
           <input
             type="text"
@@ -62,7 +62,7 @@ const TeacherForm = ({ onClose }) => {
             value={teacherData.phoneNumber}
             placeholder="Phone Number"
             onChange={handleChange}
-            className="placeholder-black w-full px-4 py-2 rounded-md border border-gray-300"
+            className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
           />
           <input
             type="text"
@@ -70,7 +70,7 @@ const TeacherForm = ({ onClose }) => {
             value={teacherData.joinDate}
             placeholder="Join Date"
             onChange={handleChange}
-            className="placeholder-black w-full px-4 py-2 rounded-md border border-gray-300"
+            className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
           />
           <input
             type="text"
@@ -78,7 +78,7 @@ const TeacherForm = ({ onClose }) => {
             value={teacherData.subjectTaught}
             placeholder="Subject Taught"
             onChange={handleChange}
-            className="placeholder-black w-full px-4 py-2 rounded-md border border-gray-300"
+            className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
           />
           <input
             type="text"
@@ -86,19 +86,18 @@ const TeacherForm = ({ onClose }) => {
             value={teacherData.assignedClass}
             placeholder="Assigned Class"
             onChange={handleChange}
-            className="placeholder-black w-full px-4 py-2 rounded-md border border-gray-300"
+            className="w-full px-4 py-2 rounded-lg border border-brand-light text-sm bg-transparent outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
           />
         </div>
-          <div className="flex space-x-2">
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
-              Add Teacher
-            </button>
-            <button type="button" onClick={onClose} className="bg-red-500 text-white px-4 py-2 rounded-md">
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
+        <div className="flex gap-3">
+          <Button variant="primary" type="submit">
+            Add Teacher
+          </Button>
+          <Button variant="ghost" type="button" onClick={onClose}>
+            Cancel
+          </Button>
+        </div>
+      </form>
     </div>
   );
 };
